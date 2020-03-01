@@ -1,0 +1,13 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "(lldb) C++ Test",
+			"type": "lldb",
+			"request": "launch",
+      "program": "${fileDirname}/test.out",
+			"cwd": "${fileDirname}",
+			"preLaunchTask": "Build with g++"
+		}
+	]
+}
