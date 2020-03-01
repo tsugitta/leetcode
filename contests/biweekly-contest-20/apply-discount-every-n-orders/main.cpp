@@ -59,13 +59,11 @@ inline bool chmin(T& a, T b) {
 
 class Cashier {
  public:
-  int mod, dis, cur = 0;
+  int mod, discount, cur = 0;
   unordered_map<int, int> price_map;
 
-  Cashier(int n, int discount, vector<int>& products, vector<int>& prices) {
-    mod = n;
-    dis = discount;
-
+  Cashier(int n, int discount, vector<int>& products, vector<int>& prices)
+      : mod(n), discount(discount) {
     rep(i, products.size()) { price_map[products[i]] = prices[i]; }
   }
 
@@ -77,7 +75,7 @@ class Cashier {
     rep(i, product.size()) res += price_map[product[i]] * amount[i];
 
     if (cur % mod == 0) {
-      res *= (100.0 - dis) / 100;
+      res *= (100.0 - discount) / 100;
     }
 
     return res;
