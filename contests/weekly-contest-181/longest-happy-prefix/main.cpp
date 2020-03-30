@@ -40,8 +40,8 @@ inline bool chmin(T& a, T b);
 
 const ll INF = 1e18;
 
-// KMP
-class Solution {
+// // KMP
+class Solution2 {
  public:
   string longestPrefix(string& s) {
     // dp[i]: the matched prefix length the i is the last index
@@ -59,6 +59,47 @@ class Solution {
     }
 
     return s.substr(0, j);
+  }
+};
+
+// O(|S|)
+// res[i]: S と S[i:] が先頭から何文字一致しているか
+VL z_algorithm(const string& S) {
+  ll N = S.size();
+  VL res(N);
+  res[0] = N;
+  ll i = 1, j = 0;
+
+  while (i < N) {
+    while (i + j < N && S[j] == S[i + j]) ++j;
+    res[i] = j;
+
+    if (j == 0) {
+      ++i;
+      continue;
+    }
+
+    ll k = 1;
+    while (i + k < N && k + res[k] < j) res[i + k] = res[k], ++k;
+    i += k, j -= k;
+  }
+
+  return res;
+}
+
+class Solution {
+ public:
+  string longestPrefix(string& s) {
+    ll N = s.size();
+    if (N == 0) return "";
+
+    VL lcp = z_algorithm(s);
+
+    rep1(i, N - 1) {
+      if (lcp[i] == N - i) return s.substr(i, N - i);
+    }
+
+    return "";
   }
 };
 
