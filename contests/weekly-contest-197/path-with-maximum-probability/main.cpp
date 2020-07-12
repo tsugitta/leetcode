@@ -71,43 +71,37 @@ class Solution {
 
       if (prob == 0) continue;
 
-      // log を取ってマイナスをかけたものをコストとするとコストの和を最小化する
-      // 問題に帰着でき、ダイクストラで解ける
-      ld log_prob = -log(prob);
-      edge_list[u].emplace_back(v, log_prob);
-      edge_list[v].emplace_back(u, log_prob);
+      edge_list[u].emplace_back(v, prob);
+      edge_list[v].emplace_back(u, prob);
     }
 
     const ld INF = 1e18;
 
-    V<ld> dists(N, INF);
+    V<ld> probs(N, 0);
 
-    priority_queue<P<ld, ll>, V<P<ld, ll>>, greater<P<ld, ll>>> q;
+    priority_queue<P<ld, ll>, V<P<ld, ll>>, less<P<ld, ll>>> q;
     q.push({0, start});
 
     while (!q.empty()) {
       auto p = q.top();
       q.pop();
 
-      ld cost = p.fi;
+      ld prob = p.fi;
       ll u = p.se;
 
-      if (cost > dists[u]) continue;
+      if (prob < probs[u]) continue;
 
       for (auto vp : edge_list[u]) {
         ll v = vp.fi;
-        ld nc = vp.se;
+        ld v_p = vp.se;
 
-        ld n_cost = cost + nc;
-        if (chmin(dists[v], n_cost)) {
-          q.emplace(n_cost, v);
+        ld n_prob = prob * v_p;
+        if (chmax(probs[v], n_prob)) {
+          q.emplace(n_prob, v);
         }
       }
     }
 
-    if (dists[end] == INF) return 0;
-
-    ld res = exp(-dists[end]);
-    return res;
+    return probs[end];
   }
 };
