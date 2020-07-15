@@ -85,7 +85,7 @@ class Solution {
     ld res = INF;
     complex<ld> res_p(0, 0);
 
-    while ((right - left) >= 1e-6 || (top - bottom) >= 1e-6) {
+    while ((right - left) > 1e-7 || (top - bottom) > 1e-7) {
       ll delta_size = 3;
       ld delta_x = (right - left) / delta_size;
       ld delta_y = (top - bottom) / delta_size;
