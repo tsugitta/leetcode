@@ -76,6 +76,8 @@ class Solution {
     VL dp(N);
     ll res = abs(arr[0] - target);
 
+    ll left = N - 1;
+
     repr(i, N) {
       rep(bit, bit_ct) {
         if (arr[i] & (1 << bit)) continue;
@@ -89,21 +91,9 @@ class Solution {
 
       dp[i] = arr[i];
 
-      ll ok = i;  // candidate as less than target
-      ll ng = N;
-
-      while (ng - ok > 1) {
-        ll mid = (ng + ok) / 2;
-
-        if (dp[mid] >= target) {
-          ok = mid;
-        } else {
-          ng = mid;
-        }
-      }
-
-      chmin(res, abs(target - dp[ok]));
-      if (ok + 1 < N) chmin(res, abs(target - dp[ok + 1]));
+      while (left > i && dp[left] < target) left--;
+      chmin(res, abs(target - dp[left]));
+      if (left + 1 < N) chmin(res, abs(target - dp[left + 1]));
     }
 
     return res;
