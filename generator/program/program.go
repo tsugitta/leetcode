@@ -39,7 +39,6 @@ func fillTemplate(path, URL, taskName string) error {
 	defer f.Close()
 
 	config := map[string]string{
-		"URL":      URL,
 		"TaskName": taskName,
 	}
 
@@ -68,7 +67,7 @@ func copyTemplates(dirPath, lang, URL string) error {
 		return errors.WithStack(err)
 	}
 
-	_, taskName, _ := path.GetProblemIdentifiers(URL)
+	taskName, _ := path.GetProblemIdentifiers(URL)
 
 	for _, file := range files {
 		if file.IsDir() {
