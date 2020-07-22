@@ -6,7 +6,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// https://leetcode.com/contest/biweekly-contest-20/problems/sort-integers-by-the-number-of-1-bits/ -> sort-integers-by-the-number-of-1-bits
+// https://leetcode.com/problems/sort-integers-by-the-number-of-1-bits/ -> sort-integers-by-the-number-of-1-bits
 func GetProblemIdentifiers(URL string) (string, error) {
 	reg := regexp.MustCompile(`/problems\/([^\/]+)`)
 	res := reg.FindStringSubmatch(URL)
