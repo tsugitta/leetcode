@@ -101,6 +101,40 @@ class Solution {
   int countPairs(TreeNode* root, int distance) {
     ll res = 0;
 
+    auto dfs = makeFixPoint([&](auto f, TreeNode* r) -> VL {
+      VL leaves;
+      if (r == NULL) return leaves;
+
+      VL ls = f(r->left);
+      VL rs = f(r->right);
+
+      for (auto l : ls) {
+        for (auto r : rs) {
+          if (l + r + 2 <= distance) res++;
+        }
+      }
+
+      if (ls.size() == 0 && rs.size() == 0) {
+        leaves.push_back(0);
+      }
+
+      for (auto l : ls) leaves.push_back(l + 1);
+      for (auto r : rs) leaves.push_back(r + 1);
+
+      return leaves;
+    });
+
+    dfs(root);
+
+    return res;
+  }
+};
+
+class Solution2 {
+ public:
+  int countPairs(TreeNode* root, int distance) {
+    ll res = 0;
+
     auto dfs = makeFixPoint([&](auto f, TreeNode* r) -> map<ll, ll> {
       map<ll, ll> res_map;
       if (r == NULL) return res_map;
